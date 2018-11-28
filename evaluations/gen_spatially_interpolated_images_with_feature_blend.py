@@ -1,0 +1,117 @@
+# demo of feature blending (+ class-translation): you need .npy files containing target and reference latent variables
+import os, sys
+import numpy as np
+import argparse
+import chainer
+from PIL import Image
+
+base = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(base, '../'))
+import yaml
+import source.yaml_utils as yaml_utils
+
+
+def load_models(config):
+    gen_conf = config.models['generator']
+    gen = yaml_utils.load_model(gen_conf['fn'], gen_conf['name'], gen_conf['args'])
+    return gen
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config_path', type=str, default='configs/base.yml')
+    parser.add_argument('--gpu', '-g', type=int, default=0)
+    parser.add_argument('--results_dir', type=str, default='./results/gans')
+    parser.add_argument('--snapshot', type=str, default='')
+    parser.add_argument('--rows', type=int, default=5)
+    parser.add_argument('--columns', type=int, default=5)
+    parser.add_argument('--classes', type=int, nargs="*", default=None)
+    parser.add_argument('--seed', type=int, default=1234)
+    parser.add_argument('--z1', type=str, default="z1.npy")
+    parser.add_argument('--z2', type=str, default="z2.npy")
+    parser.add_argument('--class_mask', type=str, default=None)
+    args = parser.parse_args()
+    np.random.seed(args.seed)
+
+    chainer.cuda.get_device(args.gpu).use()
+    config = yaml_utils.Config(yaml.load(open(args.config_path)))
+    gen = load_models(config)
+    gen.to_gpu()
+    chainer.serializers.load_npz(args.snapshot, gen)
+
+    out = args.results_dir
+
+    xp = gen.xp
+    imgs = []
+
+    z1 = xp.array(np.load(args.z1), dtype=xp.float32)
+    z1 = xp.broadcast_to(z1, (args.columns, 128))
+    z2 = xp.array(np.load(args.z2), dtype=xp.float32)
+    z2 = xp.broadcast_to(z2, (args.columns, 128))
+    for i_row in range(args.rows):
+        classes = tuple(args.classes) if args.classes is not None\
+                                      else [np.random.randint(gen.n_classes),
+                                            np.random.randint(gen.n_classes),
+                                            np.random.randint(gen.n_classes),
+                                            np.random.randint(gen.n_classes)]
+
+        if args.class_mask is not None:
+            img_mask = Image.open(args.class_mask).convert("L")
+
+            sizes = [4, 8, 8, 16, 16, 32, 32, 64, 64, 128, 128, 256]
+            ws = []
+            for i_size, size in enumerate(sizes):
+                resized_mask = xp.array(img_mask.resize((size, size)), dtype=xp.float32) / 255
+                w = xp.zeros((args.columns, size, size, gen.n_classes), dtype=xp.float32)
+                for i in range(args.columns):
+                    weight = i / (args.columns - 1.0)
+                    if i_size >= 2:
+                        weight *= 0.0
+                    w[i, :, :, classes[0]] = 1.0 - resized_mask * weight
+                    w[i, :, :, classes[1]] += resized_mask * weight
+                ws.append(chainer.Variable(w))
+        else:
+            # weights
+            sizes = [4, 8, 8, 16, 16, 32, 32, 64, 64, 128, 128, 256]
+            ws = [
+                chainer.Variable(xp.zeros((args.columns, size, size, gen.n_classes), dtype=xp.float32)) for size in sizes
+            ]
+            for i, size in enumerate(sizes):
+                ws[i].data[:, :size/2, :size/2, classes[0]] = 1.0
+                ws[i].data[:, :size/2, size/2:, classes[1]] = 1.0
+                ws[i].data[:, size/2:, :size/2, classes[2]] = 1.0
+                ws[i].data[:, size/2:, size/2:, classes[3]] = 1.0
+
+        # specifying blending weight
+        sizes_blend = [4, 8, 16, 32, 64, 128, 256]
+        blends = [xp.zeros((size, size, 3), dtype=xp.float32) for size in sizes_blend]
+
+        blends[0][1:3, 1:3, 0] = i_row / (args.rows - 1.0)
+        blends[0][:, :, 1] = 1.0
+        blends[0][1:3, 1:3, 1] = 1.0 - i_row / (args.rows - 1.0)
+
+        for i in range(len(blends)):
+            blends[i][:, :, -1] = 1.0
+            blends[i][:, :, -1] -= blends[i][:, :, 0]
+            blends[i][:, :, -1] -= blends[i][:, :, 1]
+
+        with chainer.using_config('train', False), chainer.using_config('enable_backprop', False):
+            xs = gen.spatial_interpolation(zs=[z1, z2], weights=ws, blends=blends)
+        for x in [xs[-1]]:
+            x = chainer.cuda.to_cpu(x.data)
+            x = np.asarray(np.clip(x * 127.5 + 127.5, 0.0, 255.0), dtype=np.uint8)
+            imgs.append(x)
+    img = np.stack(imgs)
+    _, _, _, h, w = img.shape
+    img = img.transpose(0, 3, 1, 4, 2)   # class interpolation on horizontal axis
+    # img = img.transpose(1, 3, 0, 4, 2) # feature blending on horizontal axis
+    img = img.reshape((args.rows * h, args.columns * w, 3))
+
+    save_path = os.path.join(out, 'interpolated_images_{}-{}-{}-{}.png'.format(classes[0], classes[1], classes[2], classes[3]))
+    if not os.path.exists(out):
+        os.makedirs(out)
+    Image.fromarray(img).save(save_path)
+
+
+if __name__ == '__main__':
+    main()
