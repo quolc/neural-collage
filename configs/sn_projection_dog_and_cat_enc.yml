@@ -1,0 +1,53 @@
+batchsize: 16
+iteration: 450000
+iteration_decay_start: 400000
+seed: 0
+display_interval: 100
+progressbar_interval: 10
+snapshot_interval: 10000
+evaluation_interval: 1000
+
+models:
+  generator:
+    fn: gen_models/resnet_small.py
+    name: ResNetGenerator
+    args:
+      dim_z: 128
+      bottom_width: 4
+      ch: 64
+      n_classes: 143
+
+
+  discriminator:
+      fn: dis_models/snresnet_small.py
+      name: SNResNetProjectionDiscriminator
+      args:
+        ch: 64
+        n_classes: 143
+
+  encoder:
+    fn: enc_models/resnetenc_small.py
+    name: ResNetEncoder
+    args:
+      dim_z: 128
+      ch: 64
+      n_classes: 143
+
+dataset:
+  dataset_fn: datasets/dog_and_cat_enc.py
+  dataset_name: DogAndCatEncDataset
+  args:
+    path_input: datasets/image_list_dog_and_cat_png.txt
+    path_truth: datasets/image_list_dog_and_cat_png.txt
+    size: 128
+    resize_method: bilinear
+    augmentation: True
+
+adam:
+  alpha: 0.00005
+  beta1: 0.0
+  beta2: 0.9
+
+updater:
+  fn: updater_enc.py
+  name: UpdaterEnc
