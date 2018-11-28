@@ -41,7 +41,7 @@ models:
       n_classes: 143
 
 dataset:
-  dataset_fn: datasets/dog_and_cat_enc.py
+  dataset_fn: datasets/imagenet_dog_and_cat_enc.py
   dataset_name: DogAndCatEncDataset
   args:
     path_input: datasets/image_list_dog_and_cat_png.txt
