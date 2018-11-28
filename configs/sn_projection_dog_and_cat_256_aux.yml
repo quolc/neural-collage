@@ -1,28 +1,35 @@
-batchsize: 16
+batchsize: 8
 iteration: 450000
 iteration_decay_start: 400000
 seed: 0
 display_interval: 100
 progressbar_interval: 10
-snapshot_interval: 10000
+snapshot_interval: 5000
 evaluation_interval: 1000
+weight_decay: 0.0001
+grad_clip: 100
 
 models:
   generator:
-    fn: gen_models/resnet_small.py
-    name: ResNetGenerator
+    fn: gen_models/resnet_256_auxab.py
+    name: ResNetAuxABGenerator
     args:
       dim_z: 128
       bottom_width: 4
-      ch: 64
+      ch: 48
       n_classes: 143
+      T: 2
+      learned_lr: True
+      initial_fast_alpha: 0.0002
+      limit_fast_alpha:   0.01
+      step_fast_alpha:    0.0000002
 
 
   discriminator:
-      fn: dis_models/snresnet_small.py
+      fn: dis_models/snresnet_256.py
       name: SNResNetProjectionDiscriminator
       args:
-        ch: 64
+        ch: 48
         n_classes: 143
 
   encoder:
@@ -39,7 +46,7 @@ dataset:
   args:
     path_input: datasets/image_list_dog_and_cat_png.txt
     path_truth: datasets/image_list_dog_and_cat_png.txt
-    size: 128
+    size: 256
     resize_method: bilinear
     augmentation: True
 
@@ -49,7 +56,7 @@ adam:
   beta2: 0.9
 
 updater:
-  fn: updater_enc.py
-  name: UpdaterEnc
+  fn: updater_auxab.py
+  name: UpdaterAuxAB
   args:
     input_size: 128
