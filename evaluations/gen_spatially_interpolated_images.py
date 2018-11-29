@@ -27,6 +27,8 @@ def main():
     parser.add_argument('--columns', type=int, default=5)
     parser.add_argument('--classes', type=int, nargs="*", default=None)
     parser.add_argument('--seed', type=int, default=1234)
+    parser.add_argument('--class_mask', type=str, default=None)
+    parser.add_argument('--z_file', type=str, default=None)
     args = parser.parse_args()
     np.random.seed(args.seed)
 
@@ -43,23 +45,52 @@ def main():
     imgs = []
 
     for _ in range(args.rows):
-        z = xp.array([np.random.normal(size=(128,)) for _ in range(args.columns)], xp.float32)
-        classes = tuple(args.classes) if args.classes is not None and len(args.classes) == 4\
-                                      else [np.random.randint(gen.n_classes),
-                                            np.random.randint(gen.n_classes),
-                                            np.random.randint(gen.n_classes),
-                                            np.random.randint(gen.n_classes)]
+        if args.z_file is None:
+            _z = xp.array(np.random.normal(size=(128,)), dtype=xp.float32)
+            z = xp.broadcast_to(_z, (args.columns, 128))
+        else:
+            _z = xp.array(np.load(args.z_file), dtype=xp.float32)
+            z = xp.broadcast_to(_z, (args.columns, 128))
 
-        sizes = [4, 8, 8, 16, 16, 32, 32, 64, 64, 128, 128, 256]
-        # zero-weights
-        ws = [
-            chainer.Variable(xp.zeros((args.columns, size, size, gen.n_classes), dtype=xp.float32)) for size in sizes
-        ]
-        for i, size in enumerate(sizes):
-            ws[i].data[:, :size/2, :size/2, classes[0]] = 1.0
-            ws[i].data[:, :size/2, size/2:, classes[1]] = 1.0
-            ws[i].data[:, size/2:, :size/2, classes[2]] = 1.0
-            ws[i].data[:, size/2:, size/2:, classes[3]] = 1.0
+        if args.class_mask is not None:
+            # two-class interpolation with the given mask
+            classes = tuple(args.classes) if args.classes is not None and len(args.classes) == 2\
+                                          else [np.random.randint(gen.n_classes),
+                                                np.random.randint(gen.n_classes)]
+
+            img_mask = Image.open(args.class_mask).convert("L")
+
+            sizes = [4, 8, 8, 16, 16, 32, 32, 64, 64, 128, 128, 256]
+            ws = []
+            for i_size, size in enumerate(sizes):
+                resized_mask = xp.array(img_mask.resize((size, size)), dtype=xp.float32) / 255
+                w = xp.zeros((args.columns, size, size, gen.n_classes), dtype=xp.float32)
+                for i in range(args.columns):
+                    weight = i / (args.columns - 1.0)
+                    w[i, :, :, classes[0]] = 1.0 - resized_mask * weight
+                    w[i, :, :, classes[1]] += resized_mask * weight
+                ws.append(chainer.Variable(w))
+        else:
+            # 1-to-4-class interpolation on the quadrants (if mask is not given)
+            classes = tuple(args.classes) if args.classes is not None and len(args.classes) == 5\
+                                          else [np.random.randint(gen.n_classes),
+                                                np.random.randint(gen.n_classes),
+                                                np.random.randint(gen.n_classes),
+                                                np.random.randint(gen.n_classes),
+                                                np.random.randint(gen.n_classes)]
+
+            sizes = [4, 8, 8, 16, 16, 32, 32, 64, 64, 128, 128, 256]
+            ws = [
+                chainer.Variable(xp.zeros((args.columns, size, size, gen.n_classes), dtype=xp.float32)) for size in sizes
+            ]
+            for i, size in enumerate(sizes):
+                ws[i].data[:, :, :, classes[0]] = 1.0
+                for j in range(args.columns):
+                    ws[i].data[j, :, :, classes[0]] = 1.0 - j / (args.columns - 1.0)
+                    ws[i].data[j, :size/2, :size/2, classes[1]] = j / (args.columns - 1.0)
+                    ws[i].data[j, :size/2, size/2:, classes[2]] = j / (args.columns - 1.0)
+                    ws[i].data[j, size/2:, :size/2, classes[3]] = j / (args.columns - 1.0)
+                    ws[i].data[j, size/2:, size/2:, classes[4]] = j / (args.columns - 1.0)
 
         with chainer.using_config('train', False), chainer.using_config('enable_backprop', False):
             x = gen.spatial_interpolation(z, ws)
@@ -71,8 +102,7 @@ def main():
     img = img.transpose(0, 3, 1, 4, 2)
     img = img.reshape((args.rows * h, args.columns * w, 3))
 
-    save_path = os.path.join(out, 'interpolated_images_{}-{}-{}-{}.png'.format(classes[0], classes[1],
-                                                                               classes[2], classes[3]))
+    save_path = os.path.join(out, 'interpolated_images.png')
     if not os.path.exists(out):
         os.makedirs(out)
     Image.fromarray(img).save(save_path)

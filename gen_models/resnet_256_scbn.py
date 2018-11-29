@@ -126,4 +126,4 @@ class SCBNResNetGenerator(chainer.Chain):
                 h = self.activation(h)
                 h = F.tanh(self.l8(h))
                 _hs.append(h)
-            return _hs
+            return _hs[-1]

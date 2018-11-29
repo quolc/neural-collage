@@ -29,6 +29,7 @@ def main():
     parser.add_argument('--rows', type=int, default=5)
     parser.add_argument('--columns', type=int, default=5)
     parser.add_argument('--classes', type=int, nargs="*", default=None)
+    parser.add_argument('--dump_z', action='store_true', default=False)
     args = parser.parse_args()
 
     np.random.seed(1234)
@@ -57,8 +58,11 @@ def main():
         if not os.path.exists(out):
             os.makedirs(out)
         Image.fromarray(x).save(save_path)
-        for i in range(args.rows * args.columns):
-            np.savez(os.path.join(out, 'z{}.npz'.format(i)), z.get()[i])
+
+        # dump latent variables
+        if args.dump_z:
+            for i in range(args.rows * args.columns):
+                np.save(os.path.join(out, 'z_{}-{}.npy'.format(c, i)), z.get()[i])
 
 
 if __name__ == '__main__':
