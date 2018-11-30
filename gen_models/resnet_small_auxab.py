@@ -132,7 +132,7 @@ class ResNetAuxABGenerator(chainer.Chain):
         # forward calculation without auxiliary network
         out_noab = self.forward(z=z, y=y, noAB=True, **kwargs)
 
-        out, z, zeta, z_recon = self.forward(batchsize, z=z, y=y, return_zs=True, **kwargs)
+        out, z, zeta, z_recon = self.forward(z=z, y=y, return_zs=True, **kwargs)
         outs.append(out)
 
         # beta1=0, beta2=0.9 <-> initial_t = 100

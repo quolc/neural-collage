@@ -42,7 +42,7 @@ models:
 
 dataset:
   dataset_fn: datasets/imagenet_dog_and_cat_enc.py
-  dataset_name: DogAndCatEncDataset
+  dataset_name: ImageNetDogAndCatEncDataset
   args:
     path_input: datasets/image_list_dog_and_cat_png.txt
     path_truth: datasets/image_list_dog_and_cat_png.txt
