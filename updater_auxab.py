@@ -79,7 +79,7 @@ class UpdaterAuxAB(chainer.training.StandardUpdater):
         fast_losses.append(reconstruction_loss(dis, outs[-1], gt) + lmd_pixel * pixel_loss(outs[-1], gt))
 
         loss = 0
-        weights = [20, 2.0, 1.0, 1.0]
+        weights = [20, 2.0, 1.0]
 
         for i in range(0, len(outs)):
             loss += fast_losses[i] * weights[i]

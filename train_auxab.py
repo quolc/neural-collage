@@ -145,7 +145,7 @@ def main():
     out = args.results_dir
     create_result_dir(out, args.config_path, config)
     trainer = training.Trainer(updater, (config.iteration, 'iteration'), out=out)
-    report_keys = ["loss_noab", "loss1", "loss2", "loss3", "loss4", "fast_alpha", "loss_ae", "loss_sparse",
+    report_keys = ["loss_noab", "loss1", "loss2", "loss3", "fast_alpha", "loss_ae",
                    "fast_benefit", "min_slope", "max_slope", "min_slope_middle", "max_slope_middle"]
     # Set up logging
     trainer.extend(extensions.snapshot(), trigger=(config.snapshot_interval, 'iteration'))
