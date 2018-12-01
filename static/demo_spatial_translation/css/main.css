@@ -1,0 +1,100 @@
+body {
+  background: #f0f0f0; }
+
+#main-column {
+  background: #fff; }
+
+#title {
+  text-align: center; }
+  #title h2 {
+    margin: 10px auto 30px; }
+  #title h4 {
+    font-size: large;
+    margin: 20px auto 10px; }
+
+#base-class {
+  padding: 10px; }
+
+#main-ui {
+  margin: 20px 0 10px;
+  text-align: center; }
+  #main-ui p {
+    margin-bottom: 5px; }
+  #main-ui #sketch-control {
+    margin: 5px 0 0;
+    text-align: center; }
+    #main-ui #sketch-control button {
+      margin: 0 auto;
+      font-size: smaller; }
+  #main-ui #result-control {
+    text-align: center; }
+    #main-ui #result-control .slider {
+      margin: 10px auto 0; }
+  #main-ui #main-ui-middle {
+    padding: 0; }
+    #main-ui #main-ui-middle button {
+      width: max-content;
+      font-size: large; }
+  #main-ui .p5-wrapper {
+    position: relative;
+    width: 100%;
+    border: solid 1px #ccc; }
+  #main-ui .p5-wrapper:before {
+    content: "";
+    display: block;
+    padding-top: 100%; }
+  #main-ui .p5 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0; }
+
+#palette {
+  margin: 10px 0 10px; }
+  #palette #palette-body {
+    min-height: 58px;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none; }
+    #palette #palette-body .palette-item {
+      float: left;
+      margin-right: 4px;
+      width: 58px;
+      height: 58px;
+      opacity: 0.6; }
+      #palette #palette-body .palette-item img {
+        width: 54px;
+        height: 54px;
+        margin: 2px; }
+      #palette #palette-body .palette-item.selected {
+        opacity: 1.0; }
+
+#class-list {
+  margin: 20px 0 30px; }
+  #class-list #class-picker-ui {
+    margin: 5px 0; }
+    #class-list #class-picker-ui button {
+      margin-left: 5px; }
+  #class-list .image_picker_selector {
+    max-height: 445px;
+    overflow: scroll; }
+    #class-list .image_picker_selector img {
+      width: 75px;
+      height: 75px; }
+    #class-list .image_picker_selector li {
+      margin: 0px 4px 4px 0px !important; }
+      #class-list .image_picker_selector li .thumbnail {
+        background: #fff;
+        padding: 4px !important; }
+        #class-list .image_picker_selector li .thumbnail.selected {
+          background: #0088cc; }
+
+.p5Canvas {
+  width: 100% !important;
+  height: 100% !important; }
+
+/*# sourceMappingURL=main.css.map */

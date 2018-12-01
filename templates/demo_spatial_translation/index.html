@@ -1,0 +1,73 @@
+{% extends "demo_spatial_translation/layout.html" %}
+{% block content %}
+
+<div class="container"><div class="row justify-content-md-center"><div class="col-md-10" id="main-column">
+    <!-- title -->
+    <div class="row" id="title">
+        <h4>
+            Collaging on Internal Representations: An Intuitive Approach for Semantic Transfiguration
+        </h4>
+        <h2>
+            Demo: Spatial class-translation
+        </h2>
+    </div>
+    <!-- base class selection -->
+    <div class="form-row justify-content-md-center" id="base-class">
+        <div class="form-group col-md-7">
+            <label for="base-class-select">Select base class</label>
+            <select id="base-class-select" class="form-control">
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="base-class-submit">&nbsp;</label>
+            <button type="submit" class="form-control btn btn-primary" id="base-class-submit">Generate</button>
+        </div>
+    </div>
+    <!-- main UI -->
+    <div class="row justify-content-md-center" id="main-ui">
+        <div class="col-md-5">
+            <p>single-class generation / canvas</p>
+            <div id="p5-left-wrapper" class="p5-wrapper">
+                <div id="p5-left" class="p5"></div>
+            </div>
+            <div id="sketch-control" class="row">
+                <button class="btn btn-danger" id="sketch-clear" disabled>clear canvas and palette</button>
+            </div>
+        </div>
+        <div class="col-md-1 my-auto" id="main-ui-middle">
+            <button type="submit" class="form-control btn btn-danger" id="main-ui-submit" disabled>➞</button>
+        </div>
+        <div class="col-md-5">
+            <p>spatial class-translation result</p>
+            <div id="p5-right-wrapper" class="p5-wrapper">
+                <div id="p5-right" class="p5"></div>
+            </div>
+            <div id="result-control" class="row">
+                <input id="ex1" data-slider-id='ex1Slider' type="text"
+                       data-slider-min="0" data-slider-max="15" data-slider-step="1" data-slider-value="15"/>
+            </div>
+        </div>
+    </div>
+    <!-- palette -->
+    <div class="row justify-content-md-center" id="palette">
+        <div class="col-md-11">
+            <h4>Palette</h4>
+            <ul class="row" id="palette-body">
+                <li class="palette-item selected" id="palette-eraser" data-class="-1" style="background-color: #000;">
+                    <img src="/static/demo_spatial_translation/img/eraser.png">
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- all class list -->
+    <div class="row justify-content-md-center" id="class-list">
+        <div class="col-md-11">
+            <h4>All class list</h4>
+            <select class="image-picker show-html form-control col-md-6" id="class-picker">
+            </select>
+        </div>
+    </div>
+</div></div>
+</div>
+
+{% endblock %}

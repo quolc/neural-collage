@@ -1,0 +1,145 @@
+body {
+  background: #f0f0f0;
+}
+
+#main-column {
+  background: #fff;
+}
+
+// header
+#title {
+  text-align: center;
+  h2 {
+    margin: 10px auto 30px;
+  }
+  h4 {
+    font-size: large;
+    margin: 20px auto 10px;
+  }
+}
+
+// base class selection
+#base-class {
+  padding: 10px;
+}
+
+// main ui
+#main-ui {
+  margin: 20px 0 10px;
+  text-align: center;
+
+  p {
+    margin-bottom: 5px;
+  }
+
+  #sketch-control {
+    margin: 5px 0 0;
+    text-align: center;
+    button {
+      margin: 0 auto;
+      font-size: smaller;
+    }
+  }
+
+  #result-control {
+    text-align: center;
+    .slider {
+      margin: 10px auto 0;
+    }
+  }
+
+  #main-ui-middle {
+    padding: 0;
+    button {
+      width: max-content;
+      font-size: large;
+    }
+  }
+
+  .p5-wrapper {
+    position: relative;
+    width: 100%;
+    border: solid 1px #ccc;
+  }
+  .p5-wrapper:before {
+      content:"";
+      display: block;
+      padding-top: 100%;
+  }
+  .p5 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+  }
+}
+
+// palette
+#palette {
+  margin: 10px 0 10px;
+
+  #palette-body {
+    min-height: 58px;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+
+    .palette-item {
+      float: left;
+      margin-right: 4px;
+      width: 58px;
+      height: 58px;
+      opacity: 0.6;
+      img {
+        width: 54px;
+        height: 54px;
+        margin: 2px;
+      }
+      &.selected {
+        opacity: 1.0;
+      }
+    }
+  }
+}
+
+// class-list
+#class-list {
+  margin: 20px 0 30px;
+
+  #class-picker-ui {
+    margin: 5px 0;
+    button{
+      margin-left: 5px;
+    }
+  }
+
+  .image_picker_selector {
+    max-height: 445px;
+    overflow: scroll;
+
+    img {
+      width: 75px;
+      height: 75px;
+    }
+    li {
+      margin: 0px 4px 4px 0px !important;
+      .thumbnail {
+        background: #fff;
+        padding: 4px !important;
+        &.selected {
+          background: #0088cc;
+        }
+      }
+    }
+  }
+}
+
+// p5
+.p5Canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
