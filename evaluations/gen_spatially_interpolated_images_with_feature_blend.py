@@ -67,7 +67,7 @@ def main():
                 w = xp.zeros((args.columns, size, size, gen.n_classes), dtype=xp.float32)
                 for i in range(args.columns):
                     weight = i / (args.columns - 1.0)
-                    if i_size >= 2:
+                    if i_size <= 0:
                         weight *= 0.0
                     w[i, :, :, classes[0]] = 1.0 - resized_mask * weight
                     w[i, :, :, classes[1]] += resized_mask * weight
@@ -94,13 +94,15 @@ def main():
                     ws[i].data[j, size/2:, :size/2, classes[3]] = j / (args.columns - 1.0)
                     ws[i].data[j, size/2:, size/2:, classes[4]] = j / (args.columns - 1.0)
 
+        print(classes)
+
         # dimension of the feature map for each layer
         sizes_blend = [4, 8, 16, 32, 64, 128, 256]
 
         # specifying feature blending weights:
         # blends[LAYER_ID][DATA_ID, Y, X, IMAGE_ID]
         # LATENT_ID: 0 = source, 1 = 1st reference, ..., -1 = image to be generated
-        blends = [xp.zeros((args.columns, size, size, 3), dtype=xp.float32) for size in sizes_blend]
+        blends = [xp.zeros((args.rows, size, size, 3), dtype=xp.float32) for size in sizes_blend]
 
         # example: applying feature blending to the center region of the 0-th feature map (4x4 resolution)
         blends[0][:, :, :, 0] = 1.0
