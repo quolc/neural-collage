@@ -1,0 +1,113 @@
+body {
+  background: #f0f0f0; }
+
+#main-column {
+  background: #fff; }
+
+#title {
+  text-align: center; }
+  #title h2 {
+    margin: 10px auto 30px; }
+  #title h4 {
+    font-size: large;
+    margin: 20px auto 10px; }
+
+#main-ui {
+  margin-top: 20px;
+  padding: 0 10px;
+  text-align: center; }
+  #main-ui .col-md-3 {
+    padding: 0 10px; }
+  #main-ui p {
+    margin-bottom: 5px; }
+  #main-ui h4 {
+    font-size: medium; }
+  #main-ui .p5-wrapper {
+    position: relative;
+    width: 100%;
+    border: solid 1px #ccc; }
+  #main-ui .p5-wrapper:before {
+    content: "";
+    display: block;
+    padding-top: 100%; }
+  #main-ui .p5 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0; }
+  #main-ui #sketch-control {
+    margin: 5px 0 0;
+    text-align: center; }
+    #main-ui #sketch-control button {
+      margin: 0 auto;
+      font-size: smaller; }
+  #main-ui #main-ui-sliders-wrapper {
+    position: relative;
+    width: 100%; }
+  #main-ui #main-ui-sliders-wrapper:before {
+    content: "";
+    display: block;
+    padding-top: 100%; }
+  #main-ui #main-ui-sliders {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    font-size: small;
+    line-height: 20px;
+    background: #f6f6f6;
+    border: solid 1px #ccc;
+    padding: 5px; }
+    #main-ui #main-ui-sliders p {
+      margin: 5px auto 0; }
+    #main-ui #main-ui-sliders .row {
+      margin-bottom: 7px; }
+    #main-ui #main-ui-sliders .weight-slider {
+      padding: 0; }
+      #main-ui #main-ui-sliders .weight-slider .slider {
+        width: 100%; }
+  #main-ui #submit-row {
+    margin: 5px 0 0;
+    text-align: center; }
+    #main-ui #submit-row button {
+      margin: 0 auto;
+      font-size: smaller; }
+  #main-ui #result-control {
+    text-align: center; }
+    #main-ui #result-control .slider {
+      margin: 10px auto 0; }
+
+#class-selection {
+  margin-top: 20px; }
+
+#image-selection-buttons {
+  width: 100%;
+  margin-top: 5px; }
+
+#image-selection-body {
+  min-height: 466px;
+  margin: 10px auto;
+  padding: 5px;
+  overflow: auto;
+  border: solid 1px #ccc;
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none; }
+  #image-selection-body .image-selection-item {
+    float: left;
+    margin: 3px;
+    width: 15.8%;
+    height: auto; }
+    #image-selection-body .image-selection-item img {
+      width: 100%;
+      height: 100%; }
+    #image-selection-body .image-selection-item.selected {
+      border: solid 2px #ff0000; }
+
+.p5Canvas {
+  width: 100% !important;
+  height: 100% !important; }
+
+/*# sourceMappingURL=main.css.map */

@@ -46,10 +46,10 @@ class SCBNResNetGenerator(chainer.Chain):
     # k: vertical
     # l: horizontal
     def blend_featuremap(self, hs, blend):
-        return F.einsum('nijkl,kli->njkl', hs, blend)
+        return F.einsum('nijkl,nkli->njkl', hs, blend)
 
     # class-map: weights[LAYER_ID][DATA_ID][H][W][CLASS_ID]
-    # blending weights: blends[H][W][INPUT_ID]
+    # blending weights: blends[LAYER_ID][DATA_ID][H][W][INPUT_ID]
     def spatial_interpolation(self, z=None, weights=None, zs=None, blends=None, **kwargs):
         if zs is None: # no feature blending
             h = z
@@ -71,7 +71,7 @@ class SCBNResNetGenerator(chainer.Chain):
                 h = self.l1(z)
                 h = F.reshape(h, (h.shape[0], -1, self.bottom_width, self.bottom_width))
                 hs.append(h)
-            hs.append(chainer.Variable(self.xp.zeros_like(hs[0]))) # dummy
+            hs.append(chainer.Variable(self.xp.zeros_like(hs[0], dtype=hs[0].dtype))) # dummy
             hs[-1] = self.blend_featuremap(F.stack(hs, axis=1), blends[0])
             # block2
             _hs = []

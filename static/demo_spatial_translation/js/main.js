@@ -128,7 +128,7 @@ function generateNewImage() {
     // generate new random z
     z = [];
     N = 128;
-    SD = 0.5;
+    SD = 1.0;
     for (var i=0; i<N; i++) {
         z.push(randn_bm(SD));
     }

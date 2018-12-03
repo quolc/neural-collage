@@ -98,14 +98,14 @@ def main():
         sizes_blend = [4, 8, 16, 32, 64, 128, 256]
 
         # specifying feature blending weights:
-        # blends[LAYER_ID][Y, X, IMAGE_ID]
+        # blends[LAYER_ID][DATA_ID, Y, X, IMAGE_ID]
         # LATENT_ID: 0 = source, 1 = 1st reference, ..., -1 = image to be generated
-        blends = [xp.zeros((size, size, 3), dtype=xp.float32) for size in sizes_blend]
+        blends = [xp.zeros((args.columns, size, size, 3), dtype=xp.float32) for size in sizes_blend]
 
         # example: applying feature blending to the center region of the 0-th feature map (4x4 resolution)
-        blends[0][:, :, 0] = 1.0
-        blends[0][1:3, 1:3, 0] = 1.0 - i_row / (args.rows - 1.0)  # source weight:    1, 0.75, 0.5, ...
-        blends[0][1:3, 1:3, 1] = i_row / (args.rows - 1.0)        # reference weight: 0, 0.25, 0.5, ...
+        blends[0][:, :, :, 0] = 1.0
+        blends[0][:, 1:3, 1:3, 0] = 1.0 - i_row / (args.rows - 1.0)  # source weight:    1, 0.75, 0.5, ...
+        blends[0][:, 1:3, 1:3, 1] = i_row / (args.rows - 1.0)        # reference weight: 0, 0.25, 0.5, ...
 
         # you can change the values of blends[LAYER_ID > 0][VERTICAL_RANGE, HORIZONTAL_RANGE, IMAGE_ID]
         # to apply feature blending to later layers
@@ -114,9 +114,9 @@ def main():
 
         # Note: feature blending will not be applied to the i-th layer if blends[i][:, :, -1] == 1.0
         for i in range(len(blends)):
-            blends[i][:, :, -1] = 1.0
-            blends[i][:, :, -1] -= blends[i][:, :, 0]
-            blends[i][:, :, -1] -= blends[i][:, :, 1]
+            blends[i][:, :, :, -1] = 1.0
+            blends[i][:, :, :, -1] -= blends[i][:, :, :, 0]
+            blends[i][:, :, :, -1] -= blends[i][:, :, :, 1]
 
         with chainer.using_config('train', False), chainer.using_config('enable_backprop', False):
             x = gen.spatial_interpolation(zs=[z1, z2], weights=ws, blends=blends)

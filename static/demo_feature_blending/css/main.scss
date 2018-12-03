@@ -1,0 +1,158 @@
+body {
+  background: #f0f0f0;
+}
+
+#main-column {
+  background: #fff;
+}
+
+// header
+#title {
+  text-align: center;
+  h2 {
+    margin: 10px auto 30px;
+  }
+  h4 {
+    font-size: large;
+    margin: 20px auto 10px;
+  }
+}
+
+// main ui
+#main-ui {
+  margin-top: 20px;
+  padding: 0 10px;
+  text-align: center;
+
+  .col-md-3 {
+    padding: 0 10px;
+  }
+
+  p {
+    margin-bottom: 5px;
+  }
+  h4 {
+    font-size: medium;
+  }
+
+  .p5-wrapper {
+    position: relative;
+    width: 100%;
+    border: solid 1px #ccc;
+  }
+  .p5-wrapper:before {
+      content:"";
+      display: block;
+      padding-top: 100%;
+  }
+  .p5 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+  }
+
+  #sketch-control {
+    margin: 5px 0 0;
+    text-align: center;
+    button {
+      margin: 0 auto;
+      font-size: smaller;
+    }
+  }
+
+  #main-ui-sliders-wrapper {
+    position: relative;
+    width: 100%;
+  }
+  #main-ui-sliders-wrapper:before {
+      content:"";
+      display: block;
+      padding-top: 100%;
+  }
+
+  #main-ui-sliders {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    font-size: small;
+    line-height: 20px;
+    background: #f6f6f6;
+    border: solid 1px #ccc;
+    padding: 5px;
+
+    p {
+      margin: 5px auto 0;
+    }
+    .row {
+      margin-bottom: 7px;
+    }
+    .weight-slider {
+      padding: 0;
+      .slider {
+        width: 100%;
+      }
+    }
+  }
+  #submit-row {
+    margin: 5px 0 0;
+    text-align: center;
+    button {
+      margin: 0 auto;
+      font-size: smaller;
+    }
+  }
+
+  #result-control {
+    text-align: center;
+    .slider {
+      margin: 10px auto 0;
+    }
+  }
+}
+
+// class selection
+#class-selection {
+  margin-top: 20px;
+}
+
+// image selection
+#image-selection-buttons {
+  width: 100%;
+  margin-top: 5px;
+}
+
+#image-selection-body {
+  min-height: 466px;
+  margin: 10px auto;
+  padding: 5px;
+  overflow: auto;
+  border: solid 1px #ccc;
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+
+  .image-selection-item {
+    float: left;
+    margin: 3px;
+    width: 15.8%;
+    height: auto;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    &.selected {
+      border: solid 2px #ff0000;
+    }
+  }
+}
+
+// p5
+.p5Canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
