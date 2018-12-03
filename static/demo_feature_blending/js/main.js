@@ -69,8 +69,7 @@ function generateReferenceNameSpace() {
         }
 
         s.clearMask = function(url) {
-            s.mask.remove();
-            s.mask = s.createGraphics(canvas_size, canvas_size);
+            s.mask.clear();
         }
     }
 }
