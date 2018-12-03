@@ -18,13 +18,13 @@ Chainer implementation of our novel CNN-based image editing method that allows t
  ### Spatial class-translation
  
 <p align='center'>  
-  <img src='images/demo_class_translation.gif' width='480'/>
+  <img src='images/demo_class_translation.gif' width='640'/>
 </p>
  
  ### Semantic transplantation
  
 <p align='center'>  
-  <img src='images/demo_semantic_transplantation.gif' width='480'/>
+  <img src='images/demo_semantic_transplantation.gif' width='640'/>
 </p>
  
  ### Exisiting image editing
