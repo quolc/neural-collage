@@ -1,0 +1,7 @@
+chainer==5.0.0
+chainercv==0.11.0
+numpy==1.14.3
+cupy==5.0.0
+scipy==1.0.0
+pyyaml==3.12
+h5py==2.7.1
