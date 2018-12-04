@@ -61,22 +61,9 @@ class (horizontal) + semantic (vertical) morphing.
 pip install -r requirements.txt
 ```
 
-### Download ImageNet dataset (optional):
-If you want to train the networks using ImageNet dataset, please download ILSVRC2012 dataset from http://image-net.org/download-images
+### Pre-trained models
 
-### Preprocess dataset (optional):
-```bash
-cd datasets
-IMAGENET_TRAIN_DIR=/path/to/imagenet/train/ # path to the parent directory of category directories named "n0*******".
-PREPROCESSED_DATA_DIR=/path/to/save_dir/
-bash preprocess.sh $IMAGENET_TRAIN_DIR $PREPROCESSED_DATA_DIR
-# Make the list of image-label pairs for all images (1000 categories, 1281167 images).
-python imagenet.py $PREPROCESSED_DATA_DIR
-# Make the list of image-label pairs for dog and cat images (143 categories, 180373 images). 
-python imagenet_dog_and_cat.py $PREPROCESSED_DATA_DIR
-```
-
-## Pre-trained models
+If you want to use pretrained models for the image generation, please download the model from link and set the snapshot argument to the path to the downloaded pretrained model file (.npz).
 
 - 256x256 ImageNet Dog and Cat Images
   - [Generator and Discriminator](https://drive.google.com/drive/u/0/folders/1SFmq9LjEkIXXAKo6p-Wdlfu0BUFSyLJi)
