@@ -5,3 +5,4 @@ cupy==5.0.0
 scipy==1.0.0
 pyyaml==3.12
 h5py==2.7.1
+flask==1.0.2
