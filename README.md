@@ -6,7 +6,7 @@ Chainer implementation of our novel CNN-based image editing method that allows t
 
 **[Collaging on Internal Representations: An Intuitive Approach for Semantic Transfiguration](https://arxiv.org/abs/1811.10153)**
 
-[Ryohei Suzuki](http://tealang.info/)<sup>1,2*</sup>, [Masanori Koyama](http://ishiilab.jp/member/koyama-m/)<sup>2</sup>, [Takeru Miyato](https://takerum.github.io/)<sup>2</sup>, Taizan Yonetsuji<sup>2</sup>  
+[Ryohei Suzuki](http://tealang.info/)<sup>1,2*</sup>, Masanori Koyama<sup>2</sup>, [Takeru Miyato](https://takerum.github.io/)<sup>2</sup>, Taizan Yonetsuji<sup>2</sup>  
  <sup>1</sup>The University of Tokyo,
  <sup>2</sup>Preferred Networks, Inc.,<br/>
  <sup>*</sup>This work was done when the author was at Preferred Networks, Inc.<br/>
