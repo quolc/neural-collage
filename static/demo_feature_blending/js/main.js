@@ -146,10 +146,11 @@ function generateImages() {
     }
 
     // set zs
+    var trunc = 2.5;
     for (var i=0; i<n_zs; i++) {
         zs[i] = [];
         for (var j=0; j<128; j++) {
-            zs[i][j] = randn_bm(1.0);
+            zs[i][j] = Math.max(-trunc, Math.min(trunc, randn_bm(1.0)));
         }
     }
     

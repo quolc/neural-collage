@@ -129,8 +129,9 @@ function generateNewImage() {
     z = [];
     N = 128;
     SD = 1.0;
+    var trunc = 2.5;
     for (var i=0; i<N; i++) {
-        z.push(randn_bm(SD));
+        z.push(Math.max(-trunc, Math.min(trunc, randn_bm(SD))));
     }
 
     // clear class-map
