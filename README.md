@@ -11,8 +11,13 @@ Chainer implementation of our novel CNN-based image editing method that allows t
  <sup>2</sup>Preferred Networks, Inc.,<br/>
  <sup>*</sup>This work was done when the author was at Preferred Networks, Inc.<br/>
  arXiv:1811.10153
+  
+  
+## Colab examples
  
- 
+- [**Image Editing Workflow**](https://colab.research.google.com/github/quolc/neural-collage/blob/master/NeuralCollage_demo.ipynb)
+
+
 ## Collage-based image editing
 
 ### Image editing pipeline
@@ -99,10 +104,6 @@ python demo_feature_blending.py \
 --gen_model ./sn_projection_dog_and_cat_256/ResNetGenerator_450000.npz \
 --gpu 0
 ```
- 
-## Colab examples
- 
-- [**Image Editing Workflow**](https://colab.research.google.com/github/quolc/neural-collage/blob/master/NeuralCollage_demo.ipynb)
 
 ## Advanced Features and Training
 
