@@ -102,7 +102,7 @@ python demo_feature_blending.py \
  
 ## Colab examples
  
-(under preparation)
+- [**Image Editing Workflow**](https://colab.research.google.com/github/quolc/neural-collage/blob/master/NeuralCollage_demo.ipynb)
 
 ## Advanced Features and Training
 
