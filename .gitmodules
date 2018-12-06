@@ -1,0 +1,3 @@
+[submodule "poissonblending"]
+	path = poissonblending
+	url = https://github.com/parosky/poissonblending.git
