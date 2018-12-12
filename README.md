@@ -60,7 +60,11 @@ class (horizontal) + semantic (vertical) morphing.
 </p>
 
 ## Setup
- 
+
+### Prerequisites
+
+- Python >= 3.6
+
 ### Install required python libraries:
 ```bash
 pip install -r requirements.txt
